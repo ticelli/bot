@@ -1,0 +1,21 @@
+{
+  "name": "ticelli-bot",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ticelli/bot.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ticelli/bot/issues"
+  },
+  "homepage": "https://github.com/ticelli/bot#readme",
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "2.x.x"
+  }
+}
