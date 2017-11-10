@@ -17,9 +17,11 @@ module.exports = class AbstractRouter {
         }
       }
     }
+    return this;
   }
   on(...params) {
     this.stack.push(params);
+    return this;
   }
 
   use(extend) {
