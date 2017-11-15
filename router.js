@@ -19,6 +19,11 @@ module.exports = class AbstractRouter {
     }
     return this;
   }
+
+  trap(...params) {
+    return this.on(...params, () => 'end');
+  }
+
   on(...params) {
     this.stack.push(params);
     return this;
