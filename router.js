@@ -1,3 +1,5 @@
+const Builder = require('./builder');
+
 module.exports = class AbstractRouter {
   constructor(config) {
     this.config = config;
@@ -7,7 +9,7 @@ module.exports = class AbstractRouter {
   async run(req, res) {
     stackLoop:
     for(const middlewares of this.stack) {
-      for (const middleware of [].concat(middlewares)) {
+      for (const middleware of [].concat(middlewares instanceof Builder ? middlewares.build : middlewares)) {
         const result = await (middleware.run ? middleware.run(req, res) : middleware(req, res));
         if (result === 'end') {
           break stackLoop;
@@ -29,6 +31,11 @@ module.exports = class AbstractRouter {
     return this;
   }
 
+  onBuild(builder) {
+    this.stack.push(builder);
+    return this;
+  }
+
   use(extend) {
     switch (typeof extend) {
       case 'function':
@@ -41,5 +48,11 @@ module.exports = class AbstractRouter {
         throw new Error('extend type');
     }
     return this;
+  }
+
+  get when() {
+    const builder = new Builder(this);
+    this.onBuild(builder);
+    return builder;
   }
 };
