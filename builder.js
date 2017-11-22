@@ -25,9 +25,8 @@ module.exports = class Builder {
     this.stack.push(...tests);
     return this;
   }
-  trap() {
-    this.do(() => 'end');
-    return this;
+  trap(...params) {
+    return this.do(...params, () => 'end');
   }
   get when() {
     return this.router.when;
