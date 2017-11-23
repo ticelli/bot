@@ -7,7 +7,7 @@ module.exports = class Builder {
     return this.stack;
   }
   intent(key, value) {
-    this.stack.push(({ intent }) => !!(intent[key]));
+    this.stack.push(({ intent = {} }) => !!(intent[key]));
     if (value) {
       this.stack.push(({ intent }) => intent[key].value === value);
     }
