@@ -1,34 +1,35 @@
-module.exports = class Builder {
-  constructor(router) {
-    this.router = router;
-    this.stack = [];
+const Runnable = require('./runnable');
+const Break = require('./break.js');
+
+module.exports = class Builder extends Runnable {
+  constructor(parent) {
+    super();
+    this.parent = parent;
   }
-  get build() {
-    return this.stack;
-  }
-  intent(key, value) {
-    this.stack.push(({ intent = {} }) => !!(intent[key]));
-    if (value) {
-      this.stack.push(({ intent }) => intent[key].value === value);
+
+  get root() {
+    if (this.parent) {
+      return this.parent.root;
     }
     return this;
   }
-  do(...params) {
-    this.stack.push(...params);
+
+  stop() {
+    this.push(() => { throw Break.all; });
     return this;
   }
-  reply(...params) {
-    this.stack.push((_, { slack }) => slack.postBackMessage(...params));
+
+  throw(...data) {
+    this.push(() => { throw new Error(...data); });
     return this;
   }
-  have(...tests) {
-    this.stack.push(...tests);
+
+  assert(middleware) {
+    this.push(async (train) => { if (!(await middleware(train))) { throw Break.once; } });
     return this;
   }
-  trap(...params) {
-    return this.do(...params, () => 'end');
-  }
-  get when() {
-    return this.router.when;
+
+  intent(name, value) {
+    return this.assert(({ intents }) => !!(intents && intents[name] && (!value || intents[name].includes(value))));
   }
 };
