@@ -32,4 +32,13 @@ module.exports = class Builder extends Runnable {
   intent(name, value) {
     return this.assert(({ intents }) => !!(intents && intents[name] && (!value || intents[name].includes(value))));
   }
+
+  get when() {
+    const builder = new this.constructor(this.parent);
+    this.parent.push(builder);
+    return builder;
+  }
+  do(...params) {
+    return this.add(...params);
+  }
 };

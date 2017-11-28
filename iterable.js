@@ -1,10 +1,10 @@
 module.exports = class Iterable extends Array {
-  use(...params) {
+  add(...params) {
     this.push(...params);
     return this;
   }
-  import(...fns) {
-    fns.forEach(fn => fn.call(this));
+  use(...middlewares) {
+    middlewares.forEach(fn => fn.call(this, this));
     return this;
   }
 };
