@@ -15,7 +15,7 @@ module.exports = class Runnable extends Iterable {
         }
       }
     } catch (e) {
-      if (!(e instanceof Break)) {
+      if (!(e.isBreakInstance)) {
         switch (typeof this[catchSymbol]) {
           case 'function':
             await this[catchSymbol](train, e);
@@ -60,7 +60,7 @@ module.exports = class Runnable extends Iterable {
 
   get onError() {
     if (this.parent) {
-      this.parent[catchSymbol] = new this.constructor(this);
+      this.parent[catchSymbol] = new this.constructor(this.parent);
       return this.parent[catchSymbol];
     }
     this[catchSymbol] = new this.constructor(this);
