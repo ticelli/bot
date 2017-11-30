@@ -23,4 +23,8 @@ module.exports = class Break {
   static get once() {
     return new this(0);
   }
+
+  get isBreakInstance() {
+    return true
+  }
 };
