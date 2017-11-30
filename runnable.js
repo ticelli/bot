@@ -15,13 +15,15 @@ module.exports = class Runnable extends Iterable {
       }
     } catch (e) {
       if (!(e instanceof Break)) {
-        if (!this[catchSymbol]) {
-          throw e;
-        }
-        if (typeof this[catchSymbol] === 'function') {
-          await this[catchSymbol](train, e);
-        } else {
-          await this[catchSymbol].run(train, e);
+        switch (typeof this[catchSymbol]) {
+          case 'function':
+            await this[catchSymbol](train, e);
+            break;
+          case 'object':
+            await this[catchSymbol].run(train, e);
+            break;
+          default:
+            throw e;
         }
       }
       if (e.shouldBreak) {
@@ -29,8 +31,22 @@ module.exports = class Runnable extends Iterable {
       }
     }
   }
+
   catch(fn) {
-    this[catchSymbol] = fn;
+    if (this.parent) {
+      this.parent[catchSymbol] = fn;
+    } else {
+      this[catchSymbol] = fn;
+    }
     return this;
+  }
+
+  get onError() {
+    if (this.parent) {
+      this.parent[catchSymbol] = new this.constructor(this);
+      return this.parent[catchSymbol];
+    }
+    this[catchSymbol] = new this.constructor(this);
+    return this[catchSymbol];
   }
 };
