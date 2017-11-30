@@ -2,15 +2,16 @@ const Iterable = require('./iterable');
 const Break = require('./break');
 
 const catchSymbol = Symbol('catch');
+const logSymbol = Symbol('log');
 
 module.exports = class Runnable extends Iterable {
-  async run(train) {
+  async run(train, error) {
     try {
       for (const rails of this) {
         if (typeof rails === 'function') {
-          await rails(train); // eslint-disable-line no-await-in-loop
+          await rails(train, error);
         } else {
-          await rails.run(train); // eslint-disable-line no-await-in-loop
+          await rails.run(train, error);
         }
       }
     } catch (e) {
@@ -38,6 +39,22 @@ module.exports = class Runnable extends Iterable {
     } else {
       this[catchSymbol] = fn;
     }
+    return this;
+  }
+
+  log(...params) {
+    const fns = params.filter(param => typeof param === 'function');
+    const [name, level = 'info'] = params.filter(param => typeof param !== 'function').reverse();
+    if (fns.length) {
+      this.push(...fns.map(fn => fn.bind(fn, level, name)));
+    } else if (this.constructor[logSymbol]) {
+      this.push(...this.constructor[logSymbol].map(fn => fn.bind(fn, level, name)));
+    }
+    return this;
+  }
+
+  static addLogCallback(fn) {
+    this[logSymbol] = (this[logSymbol] || []).concat(fn);
     return this;
   }
 

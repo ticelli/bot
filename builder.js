@@ -38,6 +38,7 @@ module.exports = class Builder extends Runnable {
     this.parent.push(builder);
     return builder;
   }
+
   do(...params) {
     return this.add(...params);
   }

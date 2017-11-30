@@ -9,7 +9,7 @@ module.exports = class Iterable extends Array {
   }
   dump() {
     return {
-      [this.constructor.name]: [...this].map(e => e.dump ? e.dump() : (e.constructor || e).name),
+      [this.constructor.name]: [...this].map(e => (e.dump ? e.dump() : (e.constructor || e).name)),
     };
   }
 };
