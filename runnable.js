@@ -49,4 +49,12 @@ module.exports = class Runnable extends Iterable {
     this[catchSymbol] = new this.constructor(this);
     return this[catchSymbol];
   }
+
+  dump() {
+    const dump = super.dump();
+    if (this[catchSymbol]) {
+      dump.catchedBy = (this[catchSymbol].constructor || this[catchSymbol]).name;
+    }
+    return dump;
+  }
 };
