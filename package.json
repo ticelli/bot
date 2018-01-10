@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,12 @@
   },
   "homepage": "https://github.com/ticelli/bot#readme",
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.12.0",
     "eslint-config-airbnb-base": "^12.0.1",
-    "eslint-plugin-import": "2.x.x"
+    "eslint-plugin-import": "2.x.x",
+    "mocha": "^4.1.0",
+    "sinon": "^4.1.4"
   },
   "dependencies": {
     "lodash.merge": "^4.6.0"

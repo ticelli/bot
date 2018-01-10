@@ -25,6 +25,6 @@ module.exports = class Break {
   }
 
   get isBreakInstance() {
-    return true
+    return true;
   }
 };

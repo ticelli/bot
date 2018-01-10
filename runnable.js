@@ -1,5 +1,4 @@
 const Iterable = require('./iterable');
-const Break = require('./break');
 
 const catchSymbol = Symbol('catch');
 const logSymbol = Symbol('log');
