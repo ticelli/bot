@@ -1,4 +1,4 @@
-# Ticelli (bot) [![Build Status](https://travis-ci.org/ticelli/bot.svg?branch=master)](https://travis-ci.org/ticelli/bot)
+# Ticelli (bot) [![Build Status](https://travis-ci.org/ticelli/bot.svg?branch=master)](https://travis-ci.org/ticelli/bot) [![Coverage Status](https://coveralls.io/repos/github/ticelli/bot/badge.svg?branch=master)](https://coveralls.io/github/ticelli/bot?branch=master)
 
 There is the engine of ticelli bot framework.
 
